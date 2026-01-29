@@ -5,6 +5,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IContainerListener;
 import net.minecraft.item.ItemStack;
+import net.minecraft.inventory.Slot;
 
 import com.spellarchives.tile.TileSpellArchive;
 
@@ -24,6 +25,27 @@ public class ContainerSpellArchive extends Container {
      */
     public ContainerSpellArchive(InventoryPlayer playerInv, TileSpellArchive tile) {
         this.tile = tile;
+        addPlayerInventorySlots(playerInv);
+    }
+
+    // Add the player's inventory slots so changes are propagated to the client while
+    // the custom GUI is open. Uses offscreen coordinates to avoid rendering.
+    private void addPlayerInventorySlots(InventoryPlayer playerInv) {
+        final int OFFSCREEN_X = -9999;
+        final int OFFSCREEN_Y = -9999;
+
+        // Player main inventory (3 rows of 9)
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 9; col++) {
+                int index = col + row * 9 + 9;
+                this.addSlotToContainer(new Slot(playerInv, index, OFFSCREEN_X, OFFSCREEN_Y));
+            }
+        }
+
+        // Hotbar (0-8)
+        for (int col = 0; col < 9; col++) {
+            this.addSlotToContainer(new Slot(playerInv, col, OFFSCREEN_X, OFFSCREEN_Y));
+        }
     }
 
     /**
