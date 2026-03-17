@@ -10,7 +10,7 @@ The format is based on Keep a Changelog and this project adheres to Semantic Ver
 
 ## [0.5.6] - 2026-03-17
 ### Fixed
-- Fix logs spam on startup due when VanillaFix was present, due to incorrect texture registration.
+- Fix logs spam on startup due when VintageFix was present, due to incorrect texture registration.
 
 
 ## [0.5.5] - 2025-12-29
