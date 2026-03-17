@@ -17,7 +17,6 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.model.IModel;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -85,7 +84,7 @@ public final class SpellArchiveModelRetexture {
                 }
             }
 
-            ModelResourceLocation modelLocation = new ModelResourceLocation(new ResourceLocation(SpellArchives.MODID, basePath), variant);
+            ModelResourceLocation modelLocation = new ModelResourceLocation(baseLoc, variant);
 
             IBakedModel existingModel = event.getModelRegistry().getObject(modelLocation);
             if (existingModel == null) {
@@ -166,9 +165,6 @@ public final class SpellArchiveModelRetexture {
 
                 // Register under the actual per-books path so blockstate resolves without reload
                 event.getModelRegistry().putObject(modelLocation, bakedModel);
-                // Also register under the canonical 'spell_archive' path for safety (books property included in variant)
-                ModelResourceLocation canonicalLoc = new ModelResourceLocation(baseLoc, variant);
-                event.getModelRegistry().putObject(canonicalLoc, bakedModel);
 
             } catch (Exception e) {
                 SpellArchives.LOGGER.error("Failed to retexture spell archive model for " + variant, e);
